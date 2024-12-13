@@ -48,8 +48,22 @@ class PrivateCarTest(TestCase):
         self.client.force_login(self.user)
 
     def test_retrieve_cars(self):
-        Car.objects.create(model="Tesla", manufacturer=Manufacturer.objects.create(name="Tesla", country="USA"), id=1)
-        Car.objects.create(model="Nissan", manufacturer=Manufacturer.objects.create(name="Nissan", country="Japan"), id=2)
+        Car.objects.create(
+            model="Tesla",
+            manufacturer=Manufacturer.objects.create(
+                name="Tesla",
+                country="USA"
+            ),
+            id=1
+        )
+        Car.objects.create(
+            model="Nissan",
+            manufacturer=Manufacturer.objects.create(
+                name="Nissan",
+                country="Japan"
+            ),
+            id=2
+        )
         response = self.client.get(CAR_LIST_URL)
         self.assertEqual(response.status_code, 200)
         cars = Car.objects.all()
@@ -61,7 +75,7 @@ class PrivateCarTest(TestCase):
         self.assertIn("search_form", response.context)
         search_form = response.context["search_form"]
         self.assertIsInstance(search_form, CarSearchForm)
-        self.assertEqual(search_form.initial["username"], "")
+        self.assertEqual(search_form.initial["model"], "")
 
 
 class PrivateDriverTest(TestCase):
@@ -82,8 +96,12 @@ class PrivateDriverTest(TestCase):
             "license_number": "HFJ12341",
         }
         self.client.post(reverse("taxi:driver-create"), data=format_data)
-        new_user = get_user_model().objects.get(username=format_data["username"])
+        new_user = get_user_model().objects.get(
+            username=format_data["username"]
+        )
 
         self.assertEqual(new_user.first_name, format_data["first_name"])
         self.assertEqual(new_user.last_name, format_data["last_name"])
-        self.assertEqual(new_user.license_number, format_data["license_number"])
+        self.assertEqual(
+            new_user.license_number, format_data["license_number"]
+        )

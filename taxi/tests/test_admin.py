@@ -18,7 +18,7 @@ class AdminTestCase(TestCase):
         )
 
     def test_driver_license_number_listed(self):
-        """"
+        """
         Test that driver's license is listed on admin page
         :return:
         """
@@ -27,7 +27,7 @@ class AdminTestCase(TestCase):
         self.assertContains(res, self.driver.license_number)
 
     def test_driver_detail_license_number_listed(self):
-        """"
+        """
         Test that driver's license is on driver detail admin page
         :return:
         """
@@ -36,8 +36,9 @@ class AdminTestCase(TestCase):
         self.assertContains(res, self.driver.license_number)
 
     def test_driver_detail_first_last_name_listed(self):
-        """"
-        Test that first, last name and driver's license is on driver detail admin page
+        """
+        Test that first, last name and driver's license is on driver
+         detail admin page
         :return:
         """
         url = reverse("admin:taxi_driver_change", args=[self.driver.id])
